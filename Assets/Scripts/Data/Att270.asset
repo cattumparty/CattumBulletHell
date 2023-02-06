@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074274a43c5dc7d41aa99f997eebd0b4, type: 3}
+  m_Name: Att270
+  m_EditorClassIdentifier: 
+  bulletResource: {fileID: 338415331430099905, guid: 37e86e72c4f715b4ca374366d33eb140, type: 3}
+  minRotation: 0
+  maxRotation: 270
+  numberOfBullets: 20
+  isRandom: 0
+  isParent: 0
+  cooldown: 0.5
+  bulletSpeed: 5
+  bulletVelocity: {x: 1, y: 1}
