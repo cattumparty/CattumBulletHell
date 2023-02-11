@@ -17,7 +17,7 @@ MonoBehaviour:
   maxRotation: 270
   numberOfBullets: 20
   isRandom: 0
-  isParent: 0
+  isParent: 1
   cooldown: 0.5
   bulletSpeed: 5
   bulletVelocity: {x: 1, y: 1}

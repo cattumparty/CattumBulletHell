@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bullet
   - BulletPlayer
+  - Enemy
+  - BossHP
   layers:
   - Default
   - TransparentFX

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 1, y: 0}
   speed: 5
-  rotation: 180
+  rotation: 0
   lifeTime: 3
 --- !u!212 &338415331430099911
 SpriteRenderer:

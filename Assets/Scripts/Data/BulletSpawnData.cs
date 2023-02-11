@@ -14,4 +14,5 @@ public class BulletSpawnData : ScriptableObject
     public float cooldown;
     public float bulletSpeed;
     public Vector2 bulletVelocity;
+    public string pattern = "None";
 }
