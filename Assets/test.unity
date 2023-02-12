@@ -726,7 +726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _img: {fileID: 695519389}
-  _x: 0.05
+  _x: 0
   _y: 0.05
 --- !u!1 &759069371
 GameObject:
