@@ -8,17 +8,31 @@ public class EnemyHP : MonoBehaviour
 {
     public float hp;
     public Text hpText;
+    public string type;
+    GameObject[] text;
+
+    public GameObject deathParticle;
+
     void Start()
     {
-        
+        text = GameObject.FindGameObjectsWithTag("BossHP");
+        hpText = text[0].GetComponent<Text>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        hpText.text = hp.ToString();
+        if (type == "Boss") {
+
+            hpText.text = hp.ToString();
+        }
         if (hp <= 0) {
-            SceneManager.LoadScene("Victory");
+            if (type == "Boss") {
+                SceneManager.LoadScene("Level2");
+            }
+            else Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
+            Destroy(gameObject);
         }
     }
 
@@ -28,4 +42,7 @@ public class EnemyHP : MonoBehaviour
             hp -= 1;
         }
     }
+
+
+
 }

@@ -8,6 +8,7 @@ public class BulletSpawner : MonoBehaviour
     public int index = 0;
     public bool isSequenceRandom;
     public bool spawningAutomatically;
+    private float angle = 0f;
     BulletSpawnData GetSpawnData() {
         return spawnDatas[index];
     }
@@ -19,6 +20,7 @@ public class BulletSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         rotations = new float[GetSpawnData().numberOfBullets];
 
         timer = GetSpawnData().cooldown;
@@ -32,6 +34,7 @@ public class BulletSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(spawnDatas == null) return;
         if (spawningAutomatically) {
             if (timer <= 0) {
                 SpawnBullets();
@@ -67,8 +70,13 @@ public class BulletSpawner : MonoBehaviour
 
         return rotations;
     }
+
+    bool isOne = false;
+
     public GameObject[] SpawnBullets()
     {
+
+
 
         if (GetSpawnData().isRandom) {
             RandomRotations();
@@ -87,16 +95,50 @@ public class BulletSpawner : MonoBehaviour
                 spawnedBullets[i].transform.SetParent(transform);
                 spawnedBullets[i].transform.localPosition = Vector2.zero;
             }
-            var b = spawnedBullets[i].GetComponent<Bullet>();
-            b.rotation = rotations[i];
-            b.speed = GetSpawnData().bulletSpeed;
-            b.velocity = GetSpawnData().bulletVelocity;
-
             if (GetSpawnData().isParent) {
                 spawnedBullets[i].transform.SetParent(null);
             }
+
+            var b = spawnedBullets[i].GetComponent<Bullet>();
+
+            if (GetSpawnData().pattern == "DoubleSpiral") {
+                //awfulness done to make bullets shoot in both directions
+                if (isOne) {
+                    PatternDoubleSpiral(b, 1);
+                    isOne = false;
+                } else {
+                    PatternDoubleSpiral(b, 0);
+                    isOne = true;
+                }
+            }
+
+            else {
+                b.velocity = GetSpawnData().bulletVelocity;
+                b.rotation = rotations[i];
+            }
+
+            b.speed = GetSpawnData().bulletSpeed;
+
         }
 
         return spawnedBullets;
-    }   
+    }
+
+    private void PatternDoubleSpiral(Bullet bullet, int x) {
+        float bulDirX = transform.position.x + Mathf.Sin(((angle + 180f * x) * Mathf.PI) / 180f);
+        float bulDirY = transform.position.y + Mathf.Cos(((angle + 180f * x) * Mathf.PI) / 180f);
+       
+        Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
+        Vector2 bulDir = (bulMoveVector - transform.position).normalized;
+
+        bullet.transform.position = transform.position;
+        bullet.transform.rotation = transform.rotation;
+
+
+        bullet.velocity = bulDir;
+        
+        angle += 10f;
+
+        if (angle >= 360f) angle = 0f;
+    }
 }

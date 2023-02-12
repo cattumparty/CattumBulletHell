@@ -13,6 +13,8 @@ public class TimedLevel1 : MonoBehaviour
 
     public void FixedUpdate() {
 
+        if (bulletSpawner == null) return;
+
         for (int i = 0; i < 100; i += 1) {
             if (TimeManager.isTime((float)i/100f, ref repeatedTasks[i])) {
                 bulletSpawner.index = 0;

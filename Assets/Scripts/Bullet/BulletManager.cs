@@ -13,6 +13,7 @@ public class BulletManager : MonoBehaviour
         bullets = new List<GameObject>();
     }
     public static GameObject GetBulletFromPool() {
+        if (bullets == null) return null;
         for (int i = 0; i < bullets.Count; i++) {
             if (!bullets[i].active)
             {
