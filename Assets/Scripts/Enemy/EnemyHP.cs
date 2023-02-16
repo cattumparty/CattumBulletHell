@@ -32,6 +32,8 @@ public class EnemyHP : MonoBehaviour
                 SceneManager.LoadScene("Level2");
             }
             else Instantiate(deathParticle, transform.position, deathParticle.transform.rotation);
+
+            
             Destroy(gameObject);
         }
     }

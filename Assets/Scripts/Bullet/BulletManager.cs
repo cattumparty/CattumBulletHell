@@ -12,14 +12,12 @@ public class BulletManager : MonoBehaviour
     {
         bullets = new List<GameObject>();
     }
-    public static GameObject GetBulletFromPool() {
-        if (bullets == null) return null;
-        for (int i = 0; i < bullets.Count; i++) {
-            if (!bullets[i].active)
+    public static GameObject GetBulletFromPool(List<GameObject> pool) {
+
+        for (int i = 0; i < pool.Count; i++) {
+            if (!pool[i].activeInHierarchy)
             {
-                bullets[i].GetComponent<Bullet>().ResetTimer();
-                bullets[i].SetActive(true);
-                return bullets[i];
+                return pool[i];
             }
         }
 

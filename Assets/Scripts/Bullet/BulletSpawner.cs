@@ -2,143 +2,88 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum FiringPattern
+{
+    None,
+    Spin,
+    Sine,
+    Helix
+}
+
 public class BulletSpawner : MonoBehaviour
 {
-    public BulletSpawnData[] spawnDatas;
-    public int index = 0;
-    public bool isSequenceRandom;
-    public bool spawningAutomatically;
-    private float angle = 0f;
-    BulletSpawnData GetSpawnData() {
-        return spawnDatas[index];
-    }
-
-
+    public Quaternion shootingRotation;
+    
+    //firing cooldown timer
     float timer;
+    //could actually just store the time last fired so you don't have to increment this every frame?
 
-    float [] rotations;
+
     // Start is called before the first frame update
     void Start()
     {
-
-        rotations = new float[GetSpawnData().numberOfBullets];
-
-        timer = GetSpawnData().cooldown;
-
-        if (!GetSpawnData().isRandom) {
-
-            DistributedRotations();
-        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(spawnDatas == null) return;
-        if (spawningAutomatically) {
-            if (timer <= 0) {
-                SpawnBullets();
-                timer = GetSpawnData().cooldown;
-                if(isSequenceRandom) {
-                    index = Random.Range(0, spawnDatas.Length);
-                } else {
-                    index += 1;
-                    if (index >= spawnDatas.Length) index = 0;
-                }
-            }
-
-            timer -= Time.deltaTime;
-        }
+        if (timer>0) timer -= Time.deltaTime;
     }
 
-    public float[] RandomRotations()
+    public void SpawnBullets(BulletSpawnData weapon,List<GameObject> bulletPool)
     {
-        for (int i = 0; i < GetSpawnData().numberOfBullets; i++) {
-            rotations[i] = Random.Range(GetSpawnData().minRotation, GetSpawnData().maxRotation);
-        }
-        return rotations;
-    }
+        if (timer > 0) return;
+        timer = weapon.cooldown;
 
-    public float[] DistributedRotations() 
-    {
-        for (int i = 0; i < GetSpawnData().numberOfBullets; i++) {
-            var fraction = (float)i / ((float)GetSpawnData().numberOfBullets-1);
-            var difference = GetSpawnData().maxRotation - GetSpawnData().minRotation;
-            var fractionOfDifference = fraction * difference;
-            rotations[i] = fractionOfDifference + GetSpawnData().minRotation;
-        }
-
-        return rotations;
-    }
-
-    bool isOne = false;
-
-    public GameObject[] SpawnBullets()
-    {
-
-
-
-        if (GetSpawnData().isRandom) {
-            RandomRotations();
-        }
-
-        GameObject[] spawnedBullets = new GameObject[GetSpawnData().numberOfBullets];
-        for (int i = 0; i < GetSpawnData().numberOfBullets; i++) {
-
-            spawnedBullets[i] = BulletManager.GetBulletFromPool();
-            if (spawnedBullets[i] == null) {
-                spawnedBullets[i] = Instantiate(GetSpawnData().bulletResource, transform);
-                BulletManager.bullets.Add(spawnedBullets[i]);
-                spawnedBullets[i].transform.SetParent(transform);
-                spawnedBullets[i].transform.localPosition = Vector2.zero;
-            } else {
-                spawnedBullets[i].transform.SetParent(transform);
-                spawnedBullets[i].transform.localPosition = Vector2.zero;
+        for(int b = 0; b < weapon.numberOfBullets; b++)
+        {
+            //get bullet from pool or spawn new
+            GameObject bullet = BulletManager.GetBulletFromPool(bulletPool);
+            if (!bullet)
+            {
+                bullet = Instantiate(weapon.bulletResource);
+                bulletPool.Add(bullet);
             }
-            if (GetSpawnData().isParent) {
-                spawnedBullets[i].transform.SetParent(null);
+            
+
+            //initialise the bullet transform
+            bullet.transform.position = transform.position;
+
+            //apply aiming rotation
+            bullet.transform.rotation = shootingRotation;
+
+            //calculate angle to spread the bullet to (random or distributed)
+            float bulletAngle = weapon.isRandom ? 
+                Random.Range(-weapon.maxRotation, weapon.maxRotation) 
+                : 
+                (2 * b + 1) * (weapon.maxRotation / weapon.numberOfBullets) - weapon.maxRotation;
+            
+
+            switch (weapon.pattern)
+            {
+                case FiringPattern.Spin:
+                    bullet.transform.Rotate(Vector3.forward, Time.time * 180f);
+                    break;
+                case FiringPattern.Sine:
+                    bullet.transform.Rotate(Vector3.forward, Mathf.Sin(Time.time*2f) * 90);
+                    break;
+                case FiringPattern.Helix:
+                    bulletAngle *= Mathf.Sin(Time.time * 4f);
+                    break;
+                default:
+                    break;
             }
 
-            var b = spawnedBullets[i].GetComponent<Bullet>();
+            //apply spread rotation
+            bullet.transform.Rotate(Vector3.forward, bulletAngle);
 
-            if (GetSpawnData().pattern == "DoubleSpiral") {
-                //awfulness done to make bullets shoot in both directions
-                if (isOne) {
-                    PatternDoubleSpiral(b, 1);
-                    isOne = false;
-                } else {
-                    PatternDoubleSpiral(b, 0);
-                    isOne = true;
-                }
-            }
-
-            else {
-                b.velocity = GetSpawnData().bulletVelocity;
-                b.rotation = rotations[i];
-            }
-
-            b.speed = GetSpawnData().bulletSpeed;
+            bullet.SetActive(true);
 
         }
 
-        return spawnedBullets;
-    }
-
-    private void PatternDoubleSpiral(Bullet bullet, int x) {
-        float bulDirX = transform.position.x + Mathf.Sin(((angle + 180f * x) * Mathf.PI) / 180f);
-        float bulDirY = transform.position.y + Mathf.Cos(((angle + 180f * x) * Mathf.PI) / 180f);
-       
-        Vector3 bulMoveVector = new Vector3(bulDirX, bulDirY, 0f);
-        Vector2 bulDir = (bulMoveVector - transform.position).normalized;
-
-        bullet.transform.position = transform.position;
-        bullet.transform.rotation = transform.rotation;
-
-
-        bullet.velocity = bulDir;
         
-        angle += 10f;
-
-        if (angle >= 360f) angle = 0f;
     }
+    
 }

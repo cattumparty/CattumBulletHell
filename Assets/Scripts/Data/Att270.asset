@@ -19,5 +19,4 @@ MonoBehaviour:
   isRandom: 0
   isParent: 1
   cooldown: 0.5
-  bulletSpeed: 5
-  bulletVelocity: {x: 1, y: 1}
+  pattern: 2

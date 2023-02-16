@@ -12,7 +12,5 @@ public class BulletSpawnData : ScriptableObject
     public bool isRandom;
     public bool isParent;
     public float cooldown;
-    public float bulletSpeed;
-    public Vector2 bulletVelocity;
-    public string pattern = "None";
+    public FiringPattern pattern;
 }
