@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6967131990246400136}
   - component: {fileID: 632763620968665688}
+  - component: {fileID: 4434158667300476586}
   - component: {fileID: 5750274474157550101}
+  - component: {fileID: 6663470437701444725}
   - component: {fileID: -5911474144309128637}
   - component: {fileID: 1098826811081307949}
   - component: {fileID: 387569264288082558}
@@ -89,6 +91,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4434158667300476586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175829504796537218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964714a551fab134cb3783f5accb2ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletSpawner: {fileID: 0}
+  phases:
+  - {fileID: 11400000, guid: 2a588b92974f88b459a37610ca09e5b3, type: 2}
+  phaseIndex: 0
+  phaseTimer: 1
 --- !u!114 &5750274474157550101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,11 +120,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cac45889c88d63449384654a5848212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnDatas:
-  - {fileID: 11400000, guid: a29b241dceff39a4195e24ad055785bf, type: 2}
-  index: 0
-  isSequenceRandom: 0
-  spawningAutomatically: 1
+  weapon: {fileID: 0}
+  shootingRotation: {x: 0, y: 0, z: 1, w: -0.00000004371139}
+--- !u!114 &6663470437701444725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175829504796537218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2769e6e13997d0142af756dbefca8912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phases:
+  - duration: 1
+    weapon: {fileID: 11400000, guid: 2a588b92974f88b459a37610ca09e5b3, type: 2}
+  - duration: 3
+    weapon: {fileID: 11400000, guid: 4c748762fe246c84490da8ee104d95b4, type: 2}
+  - duration: 2
+    weapon: {fileID: 11400000, guid: de1e146ee1c2c1943ac4d4230190ea88, type: 2}
+  currentPhaseIndex: 0
 --- !u!114 &-5911474144309128637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,9 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c7e2aafab77ee1498df6fe8e42a96b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  accelerationTime: 2
-  maxSpeed: 5
+  direction: {x: 0, y: 0, z: 0}
+  speed: 2
 --- !u!50 &387569264288082558
 Rigidbody2D:
   serializedVersion: 4
@@ -145,19 +180,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8175829504796537218}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8597482840089067345
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +203,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

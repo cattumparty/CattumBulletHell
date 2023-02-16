@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 074274a43c5dc7d41aa99f997eebd0b4, type: 3}
-  m_Name: Att90
+  m_Name: Cattum Rifle
   m_EditorClassIdentifier: 
-  bulletResource: {fileID: 338415331430099905, guid: 37e86e72c4f715b4ca374366d33eb140, type: 3}
+  bulletResource: {fileID: 338415331430099905, guid: 7aec9c3ffa218d54e909472ac826a2b7, type: 3}
   minRotation: 0
-  maxRotation: 90
-  numberOfBullets: 3
-  isRandom: 0
+  maxRotation: 15
+  numberOfBullets: 1
+  isRandom: 1
   isParent: 1
   cooldown: 0.1
-  pattern: 3
+  pattern: 0

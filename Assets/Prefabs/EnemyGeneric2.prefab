@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6967131990246400136}
   - component: {fileID: 632763620968665688}
+  - component: {fileID: -4788597530029445228}
   - component: {fileID: 5750274474157550101}
+  - component: {fileID: 3706657182649071211}
   - component: {fileID: -5911474144309128637}
   - component: {fileID: 387569264288082558}
   - component: {fileID: 8597482840089067345}
@@ -89,6 +91,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4788597530029445228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175829504796537218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964714a551fab134cb3783f5accb2ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5750274474157550101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,11 +115,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cac45889c88d63449384654a5848212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnDatas:
-  - {fileID: 11400000, guid: a29b241dceff39a4195e24ad055785bf, type: 2}
-  index: 0
-  isSequenceRandom: 0
-  spawningAutomatically: 1
+  shootingRotation: {x: 0, y: 0, z: 1, w: -0.00000004371139}
+--- !u!114 &3706657182649071211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175829504796537218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2769e6e13997d0142af756dbefca8912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  phases:
+  - duration: 1
+    weapon: {fileID: 11400000, guid: 82f2071ec035cc645a40887208815618, type: 2}
+    bulletPool: []
+  - duration: 5
+    weapon: {fileID: 11400000, guid: ce83ec22da0107947a57e258f78c735e, type: 2}
+    bulletPool: []
+  - duration: 3
+    weapon: {fileID: 11400000, guid: 5b40ccb7dbf6e5647a04c9904bc61207, type: 2}
+    bulletPool: []
+  - duration: 3
+    weapon: {fileID: 11400000, guid: f024c1277bc8fbc49943f56691410abf, type: 2}
+    bulletPool: []
 --- !u!114 &-5911474144309128637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,19 +165,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8175829504796537218}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_AngularDrag: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8597482840089067345
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -153,7 +188,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

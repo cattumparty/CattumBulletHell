@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class RandomMovement : MonoBehaviour
 {
-    public float speed = 2f;
-    public float accelerationTime = 2f;
-    public float maxSpeed = 5f;
-    private float timeLeft;
-     
+    public Vector3 direction;
+    public float speed;
+
+    Rigidbody2D rigidbodyComponent;
+
+    private void Start()
+    {
+        direction = Random.insideUnitCircle;
+        rigidbodyComponent = GetComponent<Rigidbody2D>();
+    }
     void Update()
     {
-        timeLeft -= Time.deltaTime;
-        if(timeLeft <= 0)
-        {
-            timeLeft += accelerationTime;
-        }
-    }
-     
-    void FixedUpdate()
-    {
-        transform.position += new Vector3(Random.Range(-1f, 1f) * speed * Time.deltaTime, Random.Range(-1f, 1f) * speed * Time.deltaTime, 0);
+        direction += (Vector3)Random.insideUnitCircle*0.05f;
+        //bias towards the upper middle of the scene
+        direction += (Vector3.up*2-transform.position)/1000;
+        direction.Normalize();
+        rigidbodyComponent.velocity = direction*speed;
     }
 }
